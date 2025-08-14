@@ -1,0 +1,6 @@
+@AulasWebApi.WebApi_HostAddress = http://localhost:5013
+
+GET {{AulasWebApi.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
