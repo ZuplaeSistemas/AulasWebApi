@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AulasWebApi.Models\AulasWebApi.Models.csproj" />
+  </ItemGroup>
+
 </Project>

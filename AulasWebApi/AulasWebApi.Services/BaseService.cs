@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AulasWebApi.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,27 +7,37 @@ using System.Threading.Tasks;
 
 namespace AulasWebApi.Services
 {
-    public class BaseService
+    public class BaseService<T> : IService<T> where T : BaseModel
     {
-        public void Create()
-        {
+        public List<T> list { get; set; } = new List<T>();
 
+        public void Create(T model)
+        {
+            this.list.Add(model);
         }
-        public void Read()
-        {
 
+        public void Delete(int id)
+        {
+            T item = this.ReadById(id);
+            this.list.Remove(item);
         }
-        public void Update()
-        {
 
+        public List<T> Read()
+        {
+            return this.list;
         }
-        public void Delete()
-        {
 
+        public T ReadById(int id)
+        {
+            T item = this.list.FirstOrDefault(i => i.Id == id);
+            return item;
         }
-        public void ReadById()
-        {
 
+        public void Update(T model)
+        {
+            T oldItem = this.ReadById(model.Id);
+            this.Delete(oldItem.Id);
+            this.Create(model);
         }
     }
 }
