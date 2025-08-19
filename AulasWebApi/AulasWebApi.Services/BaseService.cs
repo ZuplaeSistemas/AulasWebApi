@@ -9,27 +9,27 @@ namespace AulasWebApi.Services
 {
     public class BaseService<T> : IService<T> where T : BaseModel
     {
-        public List<T> list { get; set; } = new List<T>();
+        public static List<T> list { get; set; } = new List<T>();
 
         public void Create(T model)
         {
-            this.list.Add(model);
+            list.Add(model);
         }
 
         public void Delete(int id)
         {
             T item = this.ReadById(id);
-            this.list.Remove(item);
+            list.Remove(item);
         }
 
         public List<T> Read()
         {
-            return this.list;
+            return list;
         }
 
         public T ReadById(int id)
         {
-            T item = this.list.FirstOrDefault(i => i.Id == id);
+            T item = list.FirstOrDefault(i => i.Id == id);
             return item;
         }
 
