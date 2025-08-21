@@ -11,10 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\AulasWebApi.Models\AulasWebApi.Models.csproj" />
     <ProjectReference Include="..\AulasWebApi.Services\AulasWebApi.Services.csproj" />
   </ItemGroup>
