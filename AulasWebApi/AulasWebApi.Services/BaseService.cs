@@ -11,29 +11,29 @@ namespace AulasWebApi.Services
     {
         public static List<T> list { get; set; } = new List<T>();
 
-        public void Create(T model)
+        public virtual void Create(T model)
         {
             list.Add(model);
         }
 
-        public void Delete(int id)
+        public virtual void Delete(int id)
         {
             T item = this.ReadById(id);
             list.Remove(item);
         }
 
-        public List<T> Read()
+        public virtual List<T> Read()
         {
             return list;
         }
 
-        public T ReadById(int id)
+        public virtual T ReadById(int id)
         {
             T item = list.FirstOrDefault(i => i.Id == id);
             return item;
         }
 
-        public void Update(T model)
+        public virtual void Update(T model)
         {
             T oldItem = this.ReadById(model.Id);
             this.Delete(oldItem.Id);
