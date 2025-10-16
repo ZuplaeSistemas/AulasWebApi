@@ -10,11 +10,17 @@ namespace AulasWebApi.Services
 {
     public class PersonService :  BaseService<Person>
     {
-        private readonly string _connectionString = "Host=18.220.9.40;Port=5432;Database=person;Username=postgres;Password=123456";
+        private DataBase _dataBase;
+
+        public PersonService()
+        {
+            this._dataBase = new DataBase();
+        }
+
         public override void Create(Person model)
         {
-            NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
-            connection.Open();
+            // pegar a conexao com o postgreSQL            
+            NpgsqlConnection connection = _dataBase.GetConnection();
 
             string commandText = "INSERT INTO person (first_name, last_name, birthdate, created_at) values(@first_name, @last_name, @birthdate, @created_at)";
             NpgsqlCommand insertCommand = new NpgsqlCommand(commandText, connection);
@@ -24,23 +30,25 @@ namespace AulasWebApi.Services
             insertCommand.Parameters.AddWithValue("created_at", model.CreatedAt);
 
             insertCommand.ExecuteNonQuery();
+            _dataBase.CloseConnection(connection);
         }       
 
         public override void Delete(int id)
         {
-            NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
-            connection.Open();
+            // pegar a conexao com o postgreSQL            
+            NpgsqlConnection connection = _dataBase.GetConnection();
 
             string commandText = "DELETE FROM person WHERE id = @id";
             NpgsqlCommand deleteCommand = new NpgsqlCommand(commandText, connection);
             deleteCommand.Parameters.AddWithValue("id", id);
 
             deleteCommand.ExecuteNonQuery();
+            _dataBase.CloseConnection(connection);
         }
         public override void Update(Person model)
         {
-            NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
-            connection.Open();
+            // pegar a conexao com o postgreSQL            
+            NpgsqlConnection connection = _dataBase.GetConnection();
 
             string commandText = "UPDATE person SET first_name = @first_name, last_name = @last_name, birthdate = @birthdate WHERE id = @id";
             NpgsqlCommand updateCommand = new NpgsqlCommand(commandText, connection);
@@ -50,12 +58,13 @@ namespace AulasWebApi.Services
             updateCommand.Parameters.AddWithValue("id", model.Id);
 
             updateCommand.ExecuteNonQuery();
+            _dataBase.CloseConnection(connection);
         }
 
         public override List<Person> Read()
         {
-            NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
-            connection.Open();
+            // pegar a conexao com o postgreSQL            
+            NpgsqlConnection connection = _dataBase.GetConnection();
 
             string commandText = "SELECT * FROM person";
             NpgsqlCommand selectCommand = new NpgsqlCommand(commandText, connection);
@@ -74,14 +83,15 @@ namespace AulasWebApi.Services
                 person.CreatedAt = Convert.ToDateTime(dataReader["created_at"]);
                 list.Add(person);
             }
-            connection.Close();
+            _dataBase.CloseConnection(connection);
+
             return list;
         }
 
         public override Person ReadById(int id)
         {
-            NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
-            connection.Open();
+            // pegar a conexao com o postgreSQL            
+            NpgsqlConnection connection = _dataBase.GetConnection();
 
             string commandText = "SELECT * FROM person WHERE id = @id";
             NpgsqlCommand selectCommand = new NpgsqlCommand(commandText, connection);
@@ -98,9 +108,8 @@ namespace AulasWebApi.Services
                 person.BirthDate = Convert.ToDateTime(dataReader["birthdate"]);
                 person.CreatedAt = Convert.ToDateTime(dataReader["created_at"]);
             }
+            _dataBase.CloseConnection(connection);
             return person;
-        }
-
-        
+        }        
     }
 }
