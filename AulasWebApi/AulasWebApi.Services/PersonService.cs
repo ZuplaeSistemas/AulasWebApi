@@ -1,4 +1,5 @@
-﻿using AulasWebApi.Models;
+﻿using AulasWebApi.Infra.Db;
+using AulasWebApi.Models;
 using Npgsql;
 using System;
 using System.Collections.Generic;
@@ -10,17 +11,17 @@ namespace AulasWebApi.Services
 {
     public class PersonService :  BaseService<Person>
     {
-        private DataBase _dataBase;
+        private IDbConnectionFactory _dataBase;
 
-        public PersonService()
+        public PersonService(IDbConnectionFactory dataBase)
         {
-            this._dataBase = DataBase.Instance;
+            this._dataBase = dataBase;
         }
 
         public override void Create(Person model)
         {
             // Dispose Pattern (Resource Management / RAII)           
-            using NpgsqlConnection connection = this._dataBase.GetConnection();
+            using NpgsqlConnection connection = (NpgsqlConnection)this._dataBase.GetConnection();
 
             string commandText = "INSERT INTO person (first_name, last_name, birthdate, created_at) values(@first_name, @last_name, @birthdate, @created_at)";
             using NpgsqlCommand insertCommand = new NpgsqlCommand(commandText, connection);
@@ -35,7 +36,7 @@ namespace AulasWebApi.Services
         public override void Delete(int id)
         {
             // pegar a conexao com o postgreSQL            
-            using NpgsqlConnection connection = this._dataBase.GetConnection();
+            using NpgsqlConnection connection = (NpgsqlConnection)this._dataBase.GetConnection();
 
             string commandText = "DELETE FROM person WHERE id = @id";
             using NpgsqlCommand deleteCommand = new NpgsqlCommand(commandText, connection);
@@ -46,7 +47,7 @@ namespace AulasWebApi.Services
         public override void Update(Person model)
         {
             // pegar a conexao com o postgreSQL            
-            using NpgsqlConnection connection = this._dataBase.GetConnection();
+            using NpgsqlConnection connection = (NpgsqlConnection)this._dataBase.GetConnection();
 
             string commandText = "UPDATE person SET first_name = @first_name, last_name = @last_name, birthdate = @birthdate WHERE id = @id";
             using NpgsqlCommand updateCommand = new NpgsqlCommand(commandText, connection);
@@ -61,7 +62,7 @@ namespace AulasWebApi.Services
         public override List<Person> Read()
         {
             // pegar a conexao com o postgreSQL            
-            using NpgsqlConnection connection = this._dataBase.GetConnection();
+            using NpgsqlConnection connection = (NpgsqlConnection)this._dataBase.GetConnection();
 
             string commandText = "SELECT * FROM person";
             using NpgsqlCommand selectCommand = new NpgsqlCommand(commandText, connection);
@@ -87,7 +88,7 @@ namespace AulasWebApi.Services
         public override Person ReadById(int id)
         {
             // pegar a conexao com o postgreSQL            
-            using NpgsqlConnection connection = this._dataBase.GetConnection();
+            using NpgsqlConnection connection = (NpgsqlConnection)this._dataBase.GetConnection();
 
             string commandText = "SELECT * FROM person WHERE id = @id";
             using NpgsqlCommand selectCommand = new NpgsqlCommand(commandText, connection);
