@@ -4,15 +4,10 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <UserSecretsId>459c8b85-df44-4025-9cf3-9da009a411c5</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AulasWebApi.Infra\AulasWebApi.Infra.csproj" />
-    <ProjectReference Include="..\AulasWebApi.Models\AulasWebApi.Models.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.10" />
     <PackageReference Include="Npgsql" Version="9.0.4" />
   </ItemGroup>
 

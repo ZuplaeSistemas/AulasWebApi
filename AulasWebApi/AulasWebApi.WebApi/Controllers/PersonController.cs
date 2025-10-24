@@ -10,7 +10,12 @@ namespace AulasWebApi.WebApi.Controllers
     [ApiController]
     public class PersonController : ControllerBase
     {
-        private PersonService _service = new PersonService();
+        private PersonService _service;
+
+        public PersonController(PersonService service)
+        {
+            _service = service;
+        }
 
         [HttpGet]
         public List<Person> Get()
