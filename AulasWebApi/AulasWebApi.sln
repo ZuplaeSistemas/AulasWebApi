@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36121.58 d17.14
+VisualStudioVersion = 17.14.36121.58
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AulasWebApi.WebApi", "AulasWebApi.WebApi\AulasWebApi.WebApi.csproj", "{7DF8B557-FB92-480E-A3BA-0CBB558590DE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AulasWebApi.Models", "AulasWebApi.Models\AulasWebApi.Models.csproj", "{AB1C7D31-A9F8-46C1-8EFB-A15FE483048D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AulasWebApi.Services", "AulasWebApi.Services\AulasWebApi.Services.csproj", "{FA2CD083-2847-428A-BF7F-5E3AE319A82F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AulasWebApi.Infra", "AulasWebApi.Infra\AulasWebApi.Infra.csproj", "{47EABC12-7942-47B3-A394-C22109890797}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{FA2CD083-2847-428A-BF7F-5E3AE319A82F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA2CD083-2847-428A-BF7F-5E3AE319A82F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA2CD083-2847-428A-BF7F-5E3AE319A82F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47EABC12-7942-47B3-A394-C22109890797}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47EABC12-7942-47B3-A394-C22109890797}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47EABC12-7942-47B3-A394-C22109890797}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47EABC12-7942-47B3-A394-C22109890797}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
