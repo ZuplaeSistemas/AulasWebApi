@@ -1,4 +1,5 @@
 using AulasWebApi.Infra.Db;
+using AulasWebApi.Infra.Repositories;
 using AulasWebApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,6 +31,7 @@ builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 builder.Services.AddSingleton<AulasWebApi.Infra.Config.AppConfiguration>();
 builder.Services.AddSingleton<IDbConnectionFactory, NpgsqlConnectionFactory>();
 builder.Services.AddScoped<PersonService>();
+builder.Services.AddScoped<AulasWebApi.Infra.Repositories.PersonRepository>();
 
 var app = builder.Build();
 
