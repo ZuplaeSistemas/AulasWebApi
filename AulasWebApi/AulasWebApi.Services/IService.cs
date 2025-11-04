@@ -17,5 +17,7 @@ namespace AulasWebApi.Services
         void Update(T model);
 
         void Delete(int id);
+
+        bool Exists(int id);
     }
 }

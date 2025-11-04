@@ -11,7 +11,7 @@ namespace AulasWebApi.Infra.Db
         private readonly string _connectionString;
         public NpgsqlConnectionFactory(AppConfiguration configuration)
         {
-            _connectionString = configuration.GetConnectionString();
+            _connectionString = configuration.GetConnectionString("Postgres");
         }
 
         // Padrao de projeto Factory Method

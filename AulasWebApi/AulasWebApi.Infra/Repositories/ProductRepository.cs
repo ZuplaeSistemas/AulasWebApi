@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace AulasWebApi.Infra.Repositories
 {
-    public class PersonRepository : RepositoryInDbPostgres<Person>
+    public class ProductRepository : RepositoryInDbPostgres<Product>
     {
-        public PersonRepository(IDbConnectionFactory factory) : base(factory)
+        public ProductRepository(IDbConnectionFactory factory) : base(factory)
         {
             
         }

@@ -1,30 +1,29 @@
 ﻿using AulasWebApi.Models;
 using AulasWebApi.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace AulasWebApi.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PersonController : ControllerBase
+    public class ProductController : ControllerBase
     {
-        private PersonService _service;
+        private ProductService _service;
 
-        public PersonController(PersonService service)
+        public ProductController(ProductService service)
         {
             _service = service;
         }
 
         [HttpGet]
-        public List<Person> Get()
+        public List<Product> Get()
         {
             return this._service.Read();
         }
 
         [HttpGet("{id}")]
-        public Person Get(int id)
+        public Product Get(int id)
         {
             return this._service.ReadById(id);
         }
@@ -36,17 +35,17 @@ namespace AulasWebApi.WebApi.Controllers
         }
 
         [HttpPost]
-        public void Post([FromBody] Person model)
+        public void Post([FromBody] Product model)
         {
             this._service.Create(model);
         }
 
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] Person model)
+        public void Put(int id, [FromBody] Product model)
         {
             if (id != model.Id)
             {
-                throw new ArgumentException("O ID do objeto Person não é igual ao ID da URL.");
+                throw new ArgumentException("O ID do objeto Product não é igual ao ID da URL.");
             }
             this._service.Update(model);
         }
@@ -62,7 +61,7 @@ namespace AulasWebApi.WebApi.Controllers
             }
             catch (Exception ex)
             {
-                StatusCodeResult result = new StatusCodeResult(500);            
+                StatusCodeResult result = new StatusCodeResult(500);
                 return result;
             }
         }
