@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AulasWebApi.Infra.Repositories
 {
-    public class PersonRepository : RepositoryInDbPostgres<Person>
+    public class PersonRepository : RepositoryInDbMySql<Person>
     {
         public PersonRepository(IDbConnectionFactory factory) : base(factory)
         {

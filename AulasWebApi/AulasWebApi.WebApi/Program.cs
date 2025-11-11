@@ -29,7 +29,7 @@ builder.Configuration
 
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 builder.Services.AddSingleton<AulasWebApi.Infra.Config.AppConfiguration>();
-builder.Services.AddSingleton<IDbConnectionFactory, NpgsqlConnectionFactory>();
+builder.Services.AddSingleton<IDbConnectionFactory, MySqlConnectionFactory>();
 builder.Services.AddScoped<PersonService>();
 builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<AulasWebApi.Infra.Repositories.PersonRepository>();
