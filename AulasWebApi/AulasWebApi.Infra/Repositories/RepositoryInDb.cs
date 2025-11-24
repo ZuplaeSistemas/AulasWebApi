@@ -60,6 +60,8 @@ namespace AulasWebApi.Infra.Repositories
             parameter.ParameterName = "id";
             parameter.Value = id;
 
+            deleteCommand.Parameters.Add(parameter);
+
             deleteCommand.ExecuteNonQuery();
         }
 
@@ -73,6 +75,8 @@ namespace AulasWebApi.Infra.Repositories
             IDbDataParameter parameter = existsCommand.CreateParameter();
             parameter.ParameterName = "id";
             parameter.Value = id;
+
+            existsCommand.Parameters.Add(parameter);
 
             using IDataReader dataReader = existsCommand.ExecuteReader();
 
@@ -123,6 +127,8 @@ namespace AulasWebApi.Infra.Repositories
             IDbDataParameter parameter = selectCommand.CreateParameter();
             parameter.ParameterName = "id";
             parameter.Value = id;
+
+            selectCommand.Parameters.Add(parameter);
 
             using IDataReader dataReader = selectCommand.ExecuteReader();
 
