@@ -4,20 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AulasWebApi.Services
+namespace AulasWebApi.Infra.Repositories
 {
-    public interface IService<T>
+    public interface IRepository<T>
     {
-        int Create(T model);
-
+        int Create(T entity);
         List<T> Read();
-
-        T ReadById(int id);        
-
-        void Update(T model);
-
+        T ReadById(int id);
+        void Update(T entity);
         void Delete(int id);
-
         bool Exists(int id);
     }
 }
