@@ -10,7 +10,12 @@ namespace AulasWebApi.WebApi.Controllers
     [ApiController]
     public class PersonController : ControllerBase
     {
-        private PersonService _service = new PersonService();
+        private PersonService _service;
+
+        public PersonController(PersonService service)
+        {
+            _service = service;
+        }
 
         [HttpGet]
         public List<Person> Get()
@@ -22,6 +27,12 @@ namespace AulasWebApi.WebApi.Controllers
         public Person Get(int id)
         {
             return this._service.ReadById(id);
+        }
+
+        [HttpGet("exist/{id}")]
+        public bool Exist(int id)
+        {
+            return this._service.Exists(id);
         }
 
         [HttpPost]
@@ -41,9 +52,19 @@ namespace AulasWebApi.WebApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public StatusCodeResult Delete(int id)
         {
-            this._service.Delete(id);
+            try
+            {
+                this._service.Delete(id);
+                StatusCodeResult result = new StatusCodeResult(204);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                StatusCodeResult result = new StatusCodeResult(500);            
+                return result;
+            }
         }
     }
 }
