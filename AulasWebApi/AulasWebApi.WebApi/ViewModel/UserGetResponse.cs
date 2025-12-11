@@ -2,7 +2,7 @@
 
 namespace AulasWebApi.WebApi.ViewModel
 {
-    public class UserViewModel : BaseViewModel
+    public class UserGetResponse : BaseViewModel
     {
         public string Email { get; set; }   
 

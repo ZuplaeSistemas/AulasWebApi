@@ -1,12 +1,16 @@
 ﻿using AulasWebApi.Models;
 using AulasWebApi.Services;
+using AulasWebApi.WebApi.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace AulasWebApi.WebApi.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class PersonController : ControllerBase
     {
@@ -18,39 +22,82 @@ namespace AulasWebApi.WebApi.Controllers
         }
 
         [HttpGet]
-        public List<Person> Get()
+        public IActionResult Get()
         {
-            return this._service.Read();
+            List<Person> model = this._service.Read();
+            List<PersonGetResponse> response = new List<PersonGetResponse>();
+
+            foreach (var item in model)
+            {
+                PersonGetResponse personResponse = new PersonGetResponse
+                {
+                    Id = item.Id,
+                    FirstName = item.FirstName,
+                    LastName = item.LastName,
+                    BirthDate = item.BirthDate,
+                    CreatedAt = item.CreatedAt
+                };
+                response.Add(personResponse);
+            }
+            return Ok(response);
         }
 
         [HttpGet("{id}")]
-        public Person Get(int id)
+        public IActionResult Get(int id)
         {
-            return this._service.ReadById(id);
+            Person model =this._service.ReadById(id);
+            PersonGetResponse response = new PersonGetResponse
+            {
+                Id = model.Id,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                BirthDate = model.BirthDate,
+                CreatedAt = model.CreatedAt
+            };
+            return Ok(response);
         }
 
         [HttpGet("exist/{id}")]
-        public bool Exist(int id)
+        public IActionResult Exist(int id)
         {
-            return this._service.Exists(id);
+            ExistResponse response = new ExistResponse
+            {
+                Id = id,
+                Exist = this._service.Exists(id)
+            };
+            return Ok(response);
         }
 
         [HttpPost]
-        public void Post([FromBody] Person model)
+        public IActionResult Post([FromBody] PersonPostRequest request)
         {
+            Person model = new Person
+            {
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                BirthDate = request.BirthDate
+            };
             this._service.Create(model);
+
+            return Created();
         }
 
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] Person model)
+        public IActionResult Put(int id, [FromBody] PersonPostRequest request)
         {
-            if (id != model.Id)
+            Person model = new Person
             {
-                throw new ArgumentException("O ID do objeto Person não é igual ao ID da URL.");
-            }
+                Id = id,
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                BirthDate = request.BirthDate
+            };
             this._service.Update(model);
+
+            return NoContent();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public StatusCodeResult Delete(int id)
         {
