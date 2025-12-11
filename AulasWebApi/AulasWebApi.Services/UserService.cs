@@ -1,10 +1,5 @@
 ﻿using AulasWebApi.Infra.Repositories;
 using AulasWebApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 
 namespace AulasWebApi.Services
@@ -20,6 +15,18 @@ namespace AulasWebApi.Services
         {
             model.Password = _passwordHasher.HashPassword(model.Password);
             return base.Create(model);
-        }       
+        }
+
+        public override void Update(User model)
+        {
+            User existingUser = ReadById(model.Id);
+            if(existingUser != null)
+            {
+                model.Email = existingUser.Email; // Evita que o email seja alterado
+                model.Person_Id = existingUser.Person_Id; // Evita que o Person_Id seja alterado
+                model.Password = _passwordHasher.HashPassword(model.Password);
+                base.Update(model);
+            }
+        }
     }
 }

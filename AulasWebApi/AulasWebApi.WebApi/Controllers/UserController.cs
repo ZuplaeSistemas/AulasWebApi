@@ -1,11 +1,13 @@
 ﻿using AulasWebApi.Models;
 using AulasWebApi.Services;
 using AulasWebApi.WebApi.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AulasWebApi.WebApi.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -19,71 +21,85 @@ namespace AulasWebApi.WebApi.Controllers
         }
 
         [HttpGet]
-        public List<UserViewModel> Get()
+        public IActionResult Get()
         {
-            List<User> users = this._service.Read();            
+            List<User> model = this._service.Read();            
 
-            List<UserViewModel> listViewModel = new List<UserViewModel>();
-            foreach(var u in users)
+            List<UserGetResponse> response = new List<UserGetResponse>();
+            foreach(var u in model)
             {
-                UserViewModel uvm = new UserViewModel();
-                uvm.Id = u.Id;
-                uvm.Email = u.Email;
-                uvm.CreatedAt = u.CreatedAt;     
-                uvm.Person = this._personService.ReadById(u.Person_Id);
-                listViewModel.Add(uvm);
+                UserGetResponse userResponse = new UserGetResponse();
+                userResponse.Id = u.Id;
+                userResponse.Email = u.Email;
+                userResponse.CreatedAt = u.CreatedAt;
+                userResponse.Person = this._personService.ReadById(u.Person_Id);
+                response.Add(userResponse);
             }
-            return listViewModel;
+            return Ok(response);
         }
 
         [HttpGet("{id}")]
-        public UserViewModel Get(int id)
+        public IActionResult Get(int id)
         {
-            User user = this._service.ReadById(id);
-            UserViewModel uvm = new UserViewModel();
-            uvm.Id = user.Id;
-            uvm.Email = user.Email;
-            uvm.CreatedAt = user.CreatedAt;
-            uvm.Person = this._personService.ReadById(user.Person_Id);
+            User model = this._service.ReadById(id);
+            UserGetResponse response = new UserGetResponse
+            {
+                Id = model.Id,
+                Email = model.Email,
+                CreatedAt = model.CreatedAt,
+                Person = this._personService.ReadById(model.Person_Id)
+            };
 
-            return uvm;
+            return Ok(response);
         }
 
         [HttpGet("exist/{id}")]
-        public bool Exist(int id)
+        public IActionResult Exist(int id)
         {
-            return this._service.Exists(id);
+            ExistResponse response = new ExistResponse
+            {
+                Id = id,
+                Exist = this._service.Exists(id)
+            };
+            return Ok(response);
         }
 
         [HttpPost]
-        public void Post([FromBody] User model)
+        public IActionResult Post([FromBody] UserPostRequest viewModel)
         {
+            User model = new User
+            {
+                Email = viewModel.Email,
+                Password = viewModel.Password,
+                Person_Id = viewModel.Person_Id
+            };
             this._service.Create(model);
+            return Created();
         }
 
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] User model)
+        public IActionResult Put(int id, [FromBody] UserPutRequest request)
         {
-            if (id != model.Id)
-            {
-                throw new ArgumentException("O ID do objeto User não é igual ao ID da URL.");
-            }
+            User model = new User();
+            model.Id = id;
+            model.Password = request.Password;
+
             this._service.Update(model);
+
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public StatusCodeResult Delete(int id)
+        public IActionResult Delete(int id)
         {
             try
             {
-                this._service.Delete(id);
-                StatusCodeResult result = new StatusCodeResult(204);
-                return result;
+                this._service.Delete(id);                
+                return NoContent();
             }
             catch (Exception ex)
             {
-                StatusCodeResult result = new StatusCodeResult(500);
-                return result;
+                return StatusCode(500);
             }
         }
     }
